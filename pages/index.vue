@@ -8,16 +8,16 @@
   const route = useRoute();
   console.log(route.params);
   const page = ref(1);
-  const { data: posts, refresh } = await useAsyncData("posts", () =>
-    useClientRequest<Post>("/lastRelease", {
+  const { data: posts, refresh } = await useServerRequest<Post>(
+    "/lastRelease",
+    {
       server: false,
       query: {
-        page: page.value,
+        page: page,
         limit: 2,
       },
-    })
+    }
   );
-  console.log("data:post", posts.value?.data, posts.value?.total);
   //分页
   const handleCurrentChange = (val: number) => {
     console.log(`current page: ${val}`);
@@ -33,11 +33,11 @@
     <ElButton :icon="ElIconEditPen" type="success">button</ElButton>
     <LazyElButton type="warning">lazy button</LazyElButton>
     <!-- 渲染post.data -->
-    <Items :items="posts?.data"></Items>
+    <Items :items="posts?.data" v-if="posts"></Items>
     <el-pagination
       layout="pager, next"
       next-text="下一页"
-      :total="posts?.total"
+      :total="posts?.total || 0"
       :default-page-size="2"
       v-model:current-page="page"
       @current-change="handleCurrentChange"

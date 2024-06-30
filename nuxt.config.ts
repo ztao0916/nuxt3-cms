@@ -3,7 +3,7 @@
 const commonUrl = "http://122.51.119.99/api";
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@element-plus/nuxt"],
+  modules: ["@element-plus/nuxt", "@nuxtjs/tailwindcss"],
   //项目是前后端分离的,所以要做代理转发,解决跨域问题
   nitro: {
     devProxy: {
